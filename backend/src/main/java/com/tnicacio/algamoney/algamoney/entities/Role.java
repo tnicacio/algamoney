@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tb_role")
-public class Role implements Serializable {
+public class Role extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

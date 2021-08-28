@@ -3,7 +3,11 @@ create table tb_user (
                             first_name VARCHAR(100) /* firstName */,
                             last_name VARCHAR(100) /* lastName */,
                             email VARCHAR(255) /* email */,
-                            password VARCHAR(255) /* password */
+                            password VARCHAR(255) /* password */,
+                            created_At timestamp without time zone,
+                            created_By VARCHAR(100),
+                            updated_At timestamp without time zone,
+                            updated_By VARCHAR(100)
 );
 
 /* Primary Key Constraints */
