@@ -1,4 +1,4 @@
-package com.tnicacio.algamoney.algamoney.entities;
+package com.tnicacio.algamoney.entities;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tb_role")
-public class Role extends BaseEntity implements Serializable {
+public class Role extends AuditedEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

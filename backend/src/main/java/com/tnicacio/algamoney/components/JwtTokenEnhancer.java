@@ -1,8 +1,8 @@
-package com.tnicacio.algamoney.algamoney.components;
+package com.tnicacio.algamoney.components;
 
 
-import com.tnicacio.algamoney.algamoney.entities.User;
-import com.tnicacio.algamoney.algamoney.repositories.UserRepository;
+import com.tnicacio.algamoney.entities.User;
+import com.tnicacio.algamoney.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;

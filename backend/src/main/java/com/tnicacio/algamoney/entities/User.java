@@ -1,4 +1,4 @@
-package com.tnicacio.algamoney.algamoney.entities;
+package com.tnicacio.algamoney.entities;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "tb_user")
-public class User extends BaseEntity implements UserDetails, Serializable {
+public class User extends AuditedEntity implements UserDetails, Serializable {
 	private static final Long serialVersionUID = 1L;
 
 	@Id

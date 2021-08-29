@@ -1,4 +1,4 @@
-package com.tnicacio.algamoney.algamoney;
+package com.tnicacio.algamoney;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

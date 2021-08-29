@@ -1,41 +1,42 @@
-package com.tnicacio.algamoney.algamoney.entities;
+package com.tnicacio.algamoney.entities;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 
 @MappedSuperclass
-public abstract class BaseEntity {
+@EntityListeners(AuditingEntityListener.class)
+public abstract class AuditedEntity {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private UUID id;
 
+    @CreatedDate
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant createdAt;
 
+    @LastModifiedDate
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
 
+    @CreatedBy
     private String createdBy;
 
+    @LastModifiedBy
     private String updatedBy;
 
     @PrePersist
     public void prePersist() {
         id = UUID.randomUUID();
-        createdAt = Instant.now();
-        createdBy = SecurityContextHolder.getContext().getAuthentication().getName();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = Instant.now();
-        updatedBy = SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     public Instant getCreatedAt() {
@@ -53,4 +54,5 @@ public abstract class BaseEntity {
     public String getUpdatedBy() {
         return updatedBy;
     }
+
 }

@@ -1,9 +1,8 @@
-package com.tnicacio.algamoney.algamoney.dto;
+package com.tnicacio.algamoney.dto;
 
-import com.tnicacio.algamoney.algamoney.entities.Category;
+import com.tnicacio.algamoney.entities.Category;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 public class CategoryDTO implements Serializable {
     private static final long serialVersionUID = 1L;

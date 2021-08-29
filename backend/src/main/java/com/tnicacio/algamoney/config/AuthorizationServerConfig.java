@@ -1,7 +1,7 @@
-package com.tnicacio.algamoney.algamoney.config;
+package com.tnicacio.algamoney.config;
 
 
-import com.tnicacio.algamoney.algamoney.components.JwtTokenEnhancer;
+import com.tnicacio.algamoney.components.JwtTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

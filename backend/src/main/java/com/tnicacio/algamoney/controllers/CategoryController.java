@@ -1,8 +1,8 @@
-package com.tnicacio.algamoney.algamoney.controllers;
+package com.tnicacio.algamoney.controllers;
 
 
-import com.tnicacio.algamoney.algamoney.dto.CategoryDTO;
-import com.tnicacio.algamoney.algamoney.services.CategoryService;
+import com.tnicacio.algamoney.dto.CategoryDTO;
+import com.tnicacio.algamoney.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
