@@ -17,8 +17,12 @@ import java.util.UUID;
 @RequestMapping(value = "/categories")
 public class CategoryController {
 
+    private final CategoryService service;
+
     @Autowired
-    private CategoryService service;
+    public CategoryController(CategoryService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<Page<CategoryDTO>> findAll(Pageable pageable) {
@@ -28,7 +32,7 @@ public class CategoryController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<CategoryDTO> findById(@PathVariable String id) {
-        CategoryDTO dto = service.findById(UUID.fromString(id));
+        CategoryDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 
@@ -39,4 +43,17 @@ public class CategoryController {
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<CategoryDTO> update(@PathVariable String id, @RequestBody CategoryDTO dto) {
+        dto = service.update(id, dto);
+        return ResponseEntity.ok().body(dto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

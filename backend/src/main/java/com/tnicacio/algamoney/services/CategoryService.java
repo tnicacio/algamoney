@@ -3,7 +3,12 @@ package com.tnicacio.algamoney.services;
 import com.tnicacio.algamoney.dto.CategoryDTO;
 import com.tnicacio.algamoney.entities.Category;
 import com.tnicacio.algamoney.repositories.CategoryRepository;
+import com.tnicacio.algamoney.services.exceptions.DatabaseException;
+import com.tnicacio.algamoney.services.exceptions.InvalidUniqueIdentifierException;
+import com.tnicacio.algamoney.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,11 +22,15 @@ import java.util.UUID;
 @Service
 public class CategoryService {
 
-    @Autowired
-    private CategoryRepository repository;
+    private final CategoryRepository repository;
+
+    private final AuthService authService;
 
     @Autowired
-    private AuthService authService;
+    public CategoryService(CategoryRepository repository, AuthService authService) {
+        this.repository = repository;
+        this.authService = authService;
+    }
 
     @Transactional(readOnly = true)
     public Page<CategoryDTO> findAllPaged(Pageable pageable) {
@@ -30,10 +39,14 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public CategoryDTO findById(UUID id) {
-        Optional<Category> obj = repository.findById(id);
-        Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
-        return new CategoryDTO(entity);
+    public CategoryDTO findById(String id) {
+        try {
+            Optional<Category> obj = repository.findById(UUID.fromString(id));
+            Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+            return new CategoryDTO(entity);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidUniqueIdentifierException("Invalid Unique Identifier " + id);
+        }
     }
 
     @Transactional
@@ -43,4 +56,31 @@ public class CategoryService {
         entity = repository.save(entity);
         return new CategoryDTO(entity);
     }
+
+    @Transactional
+    public CategoryDTO update(String id, CategoryDTO dto) {
+        try {
+            Category entity = repository.getById(UUID.fromString(id));
+            entity.setName(dto.getName());
+            entity = repository.save(entity);
+            return new CategoryDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id not found " + id);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidUniqueIdentifierException("Invalid Unique Identifier " + id);
+        }
+    }
+
+    public void delete(String id) {
+        try {
+            repository.deleteById(UUID.fromString(id));
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Id not found " + id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Integrity violation");
+        } catch (IllegalArgumentException e) {
+            throw new InvalidUniqueIdentifierException("Invalid Unique Identifier " + id);
+        }
+    }
+
 }

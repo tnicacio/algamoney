@@ -2,6 +2,7 @@ package com.tnicacio.algamoney.dto;
 
 import com.tnicacio.algamoney.entities.Category;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 public class CategoryDTO implements Serializable {
@@ -9,6 +10,7 @@ public class CategoryDTO implements Serializable {
 
     private String id;
 
+    @NotBlank(message = "Required field")
     private String name;
 
     public CategoryDTO(){}
