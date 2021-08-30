@@ -10,7 +10,7 @@ public class CategoryDTO implements Serializable {
 
     private String id;
 
-    @NotBlank(message = "Required field")
+    @NotBlank
     private String name;
 
     public CategoryDTO(){}
