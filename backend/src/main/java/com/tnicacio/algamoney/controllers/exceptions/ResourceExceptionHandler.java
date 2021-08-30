@@ -35,7 +35,7 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
 		err.setStatus(NOT_FOUND.value());
-		err.setError(messageSource.getMessage("exception.resource_not_found", null, LocaleContextHolder.getLocale()));
+		err.setError(messageSource.getMessage("exception.controller.resource_not_found", null, LocaleContextHolder.getLocale()));
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(NOT_FOUND).body(err);
@@ -46,7 +46,7 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
 		err.setStatus(BAD_REQUEST.value());
-		err.setError(messageSource.getMessage("exception.database_exception", null, LocaleContextHolder.getLocale()));
+		err.setError(messageSource.getMessage("exception.controller.database_exception", null, LocaleContextHolder.getLocale()));
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(BAD_REQUEST).body(err);
@@ -57,7 +57,7 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
 		err.setStatus(BAD_REQUEST.value());
-		err.setError(messageSource.getMessage("exception.invalid_unique_identifier", null, LocaleContextHolder.getLocale()));
+		err.setError(messageSource.getMessage("exception.controller.invalid_unique_identifier", null, LocaleContextHolder.getLocale()));
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(BAD_REQUEST).body(err);
@@ -68,7 +68,7 @@ public class ResourceExceptionHandler {
 		ValidationError err = new ValidationError();
 		err.setTimestamp(Instant.now());
 		err.setStatus(UNPROCESSABLE_ENTITY.value());
-		err.setError(messageSource.getMessage("exception.validation", null, LocaleContextHolder.getLocale()));
+		err.setError(messageSource.getMessage("exception.controller.validation", null, LocaleContextHolder.getLocale()));
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
 

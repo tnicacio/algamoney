@@ -7,6 +7,8 @@ import com.tnicacio.algamoney.services.exceptions.DatabaseException;
 import com.tnicacio.algamoney.services.exceptions.InvalidUniqueIdentifierException;
 import com.tnicacio.algamoney.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -26,10 +28,13 @@ public class CategoryService {
 
     private final AuthService authService;
 
+    private final MessageSource messageSource;
+
     @Autowired
-    public CategoryService(CategoryRepository repository, AuthService authService) {
+    public CategoryService(CategoryRepository repository, AuthService authService, MessageSource messageSource) {
         this.repository = repository;
         this.authService = authService;
+        this.messageSource = messageSource;
     }
 
     @Transactional(readOnly = true)
@@ -42,10 +47,10 @@ public class CategoryService {
     public CategoryDTO findById(String id) {
         try {
             Optional<Category> obj = repository.findById(UUID.fromString(id));
-            Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+            Category entity = obj.orElseThrow(() -> new ResourceNotFoundException(messageSource.getMessage("exception.service.entity_not_found", null, LocaleContextHolder.getLocale())));
             return new CategoryDTO(entity);
         } catch (IllegalArgumentException e) {
-            throw new InvalidUniqueIdentifierException("Invalid Unique Identifier " + id);
+            throw new InvalidUniqueIdentifierException(messageSource.getMessage("exception.service.invalid_unique_identifier", new Object[] { id }, LocaleContextHolder.getLocale()));
         }
     }
 
@@ -65,9 +70,9 @@ public class CategoryService {
             entity = repository.save(entity);
             return new CategoryDTO(entity);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Id not found " + id);
+            throw new ResourceNotFoundException(messageSource.getMessage("exception.service.id_not_found", new Object[] { id }, LocaleContextHolder.getLocale()));
         } catch (IllegalArgumentException e) {
-            throw new InvalidUniqueIdentifierException("Invalid Unique Identifier " + id);
+            throw new InvalidUniqueIdentifierException(messageSource.getMessage("exception.service.invalid_unique_identifier", new Object[] { id }, LocaleContextHolder.getLocale()));
         }
     }
 
@@ -75,11 +80,11 @@ public class CategoryService {
         try {
             repository.deleteById(UUID.fromString(id));
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Id not found " + id);
+            throw new ResourceNotFoundException(messageSource.getMessage("exception.service.id_not_found", new Object[] { id }, LocaleContextHolder.getLocale()));
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Integrity violation");
+            throw new DatabaseException(messageSource.getMessage("exception.service.integrity_violation", null, LocaleContextHolder.getLocale()));
         } catch (IllegalArgumentException e) {
-            throw new InvalidUniqueIdentifierException("Invalid Unique Identifier " + id);
+            throw new InvalidUniqueIdentifierException(messageSource.getMessage("exception.service.invalid_unique_identifier", new Object[] { id }, LocaleContextHolder.getLocale()));
         }
     }
 
